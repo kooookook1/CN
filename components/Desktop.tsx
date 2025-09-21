@@ -4,7 +4,7 @@ import { CodeIcon, MessageSquareIcon, NexusIcon } from '../constants';
 import InteractiveBackground from './InteractiveBackground';
 import ContextMenu from './ContextMenu';
 
-const Window = lazy(() => import('/components/Window.tsx'));
+const Window = lazy(() => import('./Window'));
 
 interface DesktopProps {
   windows: WindowState[];

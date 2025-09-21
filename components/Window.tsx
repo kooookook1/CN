@@ -3,10 +3,10 @@ import React, { type FC, Suspense, lazy } from 'react';
 import { motion, useDragControls } from 'framer-motion';
 import { type View, type Translations, type Simulation } from '../types';
 
-const AiSiteBuilder = lazy(() => import('/components/AiSiteBuilder.tsx'));
-const Chat = lazy(() => import('/components/Chat.tsx'));
-const Dashboard = lazy(() => import('/components/Dashboard.tsx'));
-const Settings = lazy(() => import('/components/Settings.tsx'));
+const AiSiteBuilder = lazy(() => import('./AiSiteBuilder'));
+const Chat = lazy(() => import('./Chat'));
+const Dashboard = lazy(() => import('./Dashboard'));
+const Settings = lazy(() => import('./Settings'));
 
 interface WindowProps {
   id: number;
