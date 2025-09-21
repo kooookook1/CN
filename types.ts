@@ -1,6 +1,6 @@
 import { type FC, type SVGProps } from 'react';
 
-export type View = 'dashboard' | 'builder' | 'tools' | 'chat';
+export type View = 'dashboard' | 'builder' | 'tools' | 'chat' | 'settings';
 export type Language = 'en' | 'ar';
 export type Theme = 'dark' | 'light';
 

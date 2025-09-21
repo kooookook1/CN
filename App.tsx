@@ -7,6 +7,8 @@ import Taskbar from './components/Taskbar';
 import CommandPalette from './components/CommandPalette';
 import NexusAiChat from './components/NexusAiChat';
 import TerminalView from './components/TerminalView';
+import AnimatedBackground from './components/AnimatedBackground';
+import NotificationSystem, { type Notification } from './components/NotificationSystem';
 import { audioService } from './services/audioService';
 
 const App: FC = () => {
@@ -21,6 +23,7 @@ const App: FC = () => {
   const [activeSimulation, setActiveSimulation] = useState<Simulation | null>(null);
   const [nexusChatOpen, setNexusChatOpen] = useState(false);
   const [nexusInitialPrompt, setNexusInitialPrompt] = useState<string | undefined>(undefined);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
   
   const t = translations[language];
 
@@ -74,10 +77,26 @@ const App: FC = () => {
     setWindows(prev => prev.filter(w => w.id !== id));
   };
   
+  const addNotification = (notification: Omit<Notification, 'id'>) => {
+    const id = Date.now().toString();
+    setNotifications(prev => [...prev, { ...notification, id }]);
+  };
+
+  const removeNotification = (id: string) => {
+    setNotifications(prev => prev.filter(n => n.id !== id));
+  };
+
   const handleStart = () => {
     audioService.playSound('start');
     setSplashVisible(false);
-    openWindow('dashboard'); // Open the main dashboard on start
+    openWindow('dashboard');
+    // إضافة إشعار ترحيبي
+    addNotification({
+      title: 'Welcome to ZERO HUB',
+      message: 'System initialized successfully. All modules are online.',
+      type: 'success',
+      duration: 6000
+    });
   };
 
   const handleLaunchSimulation = (simulation: Simulation) => {
@@ -103,6 +122,7 @@ const App: FC = () => {
 
   return (
     <div className="h-screen w-screen bg-[var(--color-bg)] text-[var(--color-text)] relative overflow-hidden">
+      <AnimatedBackground />
       <Desktop 
         windows={windows} 
         openWindow={openWindow}
@@ -119,6 +139,10 @@ const App: FC = () => {
         language={language}
         setLanguage={setLanguage}
         t={t}
+      />
+      <NotificationSystem 
+        notifications={notifications}
+        onRemove={removeNotification}
       />
       {commandPaletteOpen && (
         <CommandPalette 
